@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKSÖZ GOLD Takip Sistemi</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        .flex-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        .flex-row > div {
+            flex: 1;
+        }
+        .flex-row input, .flex-row select {
+            width: 100%;
+        }
+
+	:root {
+    --gold: #FFD700; /* Ana altın rengi */
+    --gold-dark: #C5A400; /* Koyu altın (hover için) */
+    --black: #1A1A1A; /* Ana siyah */
+    --white: #FFFFFF; /* Ana beyaz */
+    --gray-bg: #F4F4F4; /* Açık arka plan */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: var(--gray-bg);
+    color: var(--black);
+    line-height: 1.6;
+}
+
+/* --- Genel Panel Yapısı ve Giriş Ekranı --- */
+.panel {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#login-panel {
+    background: linear-gradient(135deg, var(--black) 50%, #333 100%);
+    color: var(--white);
+}
+
+.login-box {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 350px;
+}
+
+.login-box h1 {
+    color: var(--gold-dark);
+    margin-bottom: 5px;
+}
+
+.login-box p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-box button {
+    width: 100%;
+    background-color: var(--gold);
+    color: var(--black);
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-box button:hover {
+    background-color: var(--gold-dark);
+}
+
+.login-box small {
+    display: block;
+    margin-top: 20px;
+    color: #aaa;
+}
+
+/* --- Yönetim Paneli (Dashboard) --- */
+#dashboard-panel {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+/* Sol Menü (Sidebar) */
+#sidebar {
+    width: 250px;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 20px 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 1.5em;
+    text-align: center;
+    padding-bottom: 30px;
+    color: var(--gold);
+    border-bottom: 1px solid #333;
+    margin: 0 20px 20px 20px;
+}
+
+#sidebar nav {
+    flex-grow: 1;
+}
+
+#sidebar .nav-item {
+    display: block;
+    padding: 15px 25px;
+    text-decoration: none;
+    color: var(--white);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#sidebar .nav-item i {
+    margin-right: 10px;
+    width: 20px; /* İkon hizalaması için */
+}
+
+#sidebar .nav-item:hover, #sidebar .nav-item.active {
+    background-color: var(--gold);
+    color: var(--black);
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: 1px solid var(--white);
+    color: var(--white);
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: var(--black);
+}
+
+/* Ana İçerik */
+#main-content {
+    flex-grow: 1;
+    padding: 30px;
+    width: calc(100% - 250px);
+}
+
+.content-section {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: var(--black);
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 10px;
+}
+
+/* Özet Kartları */
+.summary-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Mobil için */
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 8px;
+    color: var(--white);
+    min-width: 200px;
+}
+
+.card.gold {
+    background-color: var(--gold);
+    color: var(--black);
+}
+
+.card.black {
+    background-color: var(--black);
+}
+
+.card h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.card p {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+/* Listeleme ve Butonlar */
+.actions {
+    margin-bottom: 20px;
+}
+
+.add-new-btn, .pdf-btn {
+    background-color: var(--gold);
+    color: var(--black);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.add-new-btn:hover, .pdf-btn:hover {
+    background-color: var(--gold-dark);
+}
+
+.list-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.list-actions input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+/* Tablo Stili */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.data-table thead tr {
+    background-color: var(--black);
+    color: var(--gold);
+    text-align: left;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--gray-bg);
+}
+
+.data-table .action-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+}
+
+.data-table .edit-btn {
+    background-color: var(--gold-dark);
+    color: var(--black);
+}
+
+.data-table .delete-btn {
+    background-color: #e74c3c;
+    color: var(--white);
+}
+
+/* --- Modal Stili --- */
+.modal {
+    display: none; /* Varsayılan olarak gizli */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover, .close-btn:focus {
+    color: var(--black);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal-content input, .modal-content textarea, .modal-content select { /* select eklendi */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#modal-submit-btn {
+    background-color: var(--black);
+    color: var(--gold);
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+#modal-submit-btn:hover {
+    background-color: #333;
+}
+
+/* --- Responsive Ayarlar --- */
+@media (max-width: 768px) {
+    #dashboard-panel {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        min-height: auto;
+        padding: 10px 0;
+    }
+    
+    #sidebar nav {
+        display: flex;
+        overflow-x: auto; /* Mobil menü kaydırma */
+        white-space: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    #sidebar .nav-item {
+        padding: 10px 15px;
+    }
+
+    .logo, .logout-btn {
+        display: none; /* Mobil ekranda sidebar'ı sadeleştir */
+    }
+
+    #main-content {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .summary-cards {
+        flex-direction: column;
+    }
+    
+    .list-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .list-actions input[type="text"] {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div id="login-panel" class="panel">
+        <div class="login-box">
+            <h1><i class="fas fa-gem"></i> AKSÖZ GOLD</h1>
+            <p>Takip Sistemine Hoş Geldiniz</p>
+            <input type="text" id="username" placeholder="Kullanıcı Adı">
+            <input type="password" id="password" placeholder="Şifre">
+            <button onclick="login()">Giriş Yap</button>
+            <p class="warning" id="login-message"></p>
+            <small>Basit Güvenlik: Şifre doğrulama JS içindedir.</small>
+        </div>
+    </div>
+
+    <div id="dashboard-panel" class="panel hidden">
+
+        <aside id="sidebar">
+            <div class="logo"><i class="fas fa-gem"></i> AKSÖZ GOLD</div>
+            <nav>
+                <a href="#" class="nav-item active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Ana Menü</a>
+                <a href="#" class="nav-item" data-section="gelir"><i class="fas fa-arrow-down"></i> Gelir</a>
+                <a href="#" class="nav-item" data-section="gider"><i class="fas fa-arrow-up"></i> Gider</a>
+                <a href="#" class="nav-item" data-section="alacak"><i class="fas fa-hand-holding-usd"></i> Alacak</a>
+                <a href="#" class="nav-item" data-section="verecek"><i class="fas fa-money-bill-wave"></i> Verecek</a>
+                <a href="#" class="nav-item" data-section="siparis"><i class="fas fa-shopping-cart"></i> Sipariş</a>
+                <a href="#" class="nav-item" data-section="emanet"><i class="fas fa-boxes"></i> Emanet</a>
+            </nav>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
+        </aside>
+
+        <main id="main-content">
+
+            <section id="section-dashboard" class="content-section">
+                <h2><i class="fas fa-tachometer-alt"></i> Ana Menü (Dashboard)</h2>
+
+                <div class="summary-cards">
+                    <div class="card gold"><h3>Toplam TL Gelir</h3><p id="total-gelir">0,00 ₺</p></div>
+                    <div class="card black"><h3>Toplam TL Gider</h3><p id="total-gider">0,00 ₺</p></div>
+                    <div class="card gold"><h3>Toplam Altın (Gr)</h3><p id="total-gold-net">0,00 Gr</p></div>
+                </div>
+
+                <div class="actions">
+                    <button class="add-new-btn" onclick="openModal('gelir')"><i class="fas fa-plus"></i> Yeni Kayıt Ekle</button>
+                    <button class="add-new-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Çıktı Al (Geliştirilecek)</button>
+                </div>
+            </section>
+            
+            <section id="section-gelir" class="content-section hidden">
+                <h2><i class="fas fa-arrow-down"></i> Gelir Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-gelir" onkeyup="searchRecords('gelir')">
+                    <button class="add-new-btn" onclick="openModal('gelir')"><i class="fas fa-plus"></i> Yeni Gelir Ekle</button>
+                </div>
+                <table id="table-gelir" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+            
+            <section id="section-gider" class="content-section hidden">
+                <h2><i class="fas fa-arrow-up"></i> Gider Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-gider" onkeyup="searchRecords('gider')">
+                    <button class="add-new-btn" onclick="openModal('gider')"><i class="fas fa-plus"></i> Yeni Gider Ekle</button>
+                </div>
+                <table id="table-gider" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+
+             <section id="section-alacak" class="content-section hidden">
+                <h2><i class="fas fa-hand-holding-usd"></i> Alacak Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-alacak" onkeyup="searchRecords('alacak')">
+                    <button class="add-new-btn" onclick="openModal('alacak')"><i class="fas fa-plus"></i> Yeni Alacak Ekle</button>
+                </div>
+                <table id="table-alacak" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+            
+            <section id="section-verecek" class="content-section hidden">
+                <h2><i class="fas fa-money-bill-wave"></i> Verecek Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-verecek" onkeyup="searchRecords('verecek')">
+                    <button class="add-new-btn" onclick="openModal('verecek')"><i class="fas fa-plus"></i> Yeni Verecek Ekle</button>
+                </div>
+                <table id="table-verecek" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+            
+            <section id="section-siparis" class="content-section hidden">
+                <h2><i class="fas fa-shopping-cart"></i> Sipariş Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-siparis" onkeyup="searchRecords('siparis')">
+                    <button class="add-new-btn" onclick="openModal('siparis')"><i class="fas fa-plus"></i> Yeni Sipariş Ekle</button>
+                </div>
+                <table id="table-siparis" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+
+            <section id="section-emanet" class="content-section hidden">
+                <h2><i class="fas fa-boxes"></i> Emanet Kayıtları</h2>
+                <div class="list-actions">
+                    <input type="text" placeholder="Ara..." id="search-emanet" onkeyup="searchRecords('emanet')">
+                    <button class="add-new-btn" onclick="openModal('emanet')"><i class="fas fa-plus"></i> Yeni Emanet Ekle</button>
+                </div>
+                <table id="table-emanet" class="data-table"><thead><tr><th>İsim Soyisim</th><th>Telefon</th><th>Miktar</th><th>Birim</th><th>Altın (Gr)</th><th>Tarih</th><th>İşlemler</th></tr></thead><tbody></tbody></table>
+            </section>
+        
+        </main>
+    </div>
+
+    <div id="record-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title">Yeni Kayıt Ekle</h3>
+            <form id="record-form">
+                <input type="hidden" id="modal-type">
+                <input type="hidden" id="record-id">
+                
+                <label for="record-name">İsim Soyisim</label>
+                <input type="text" id="record-name" required placeholder="Ör: Ali Aksöz">
+                
+                <label for="record-phone">Telefon Numarası</label>
+                <input type="tel" id="record-phone" placeholder="Ör: 05xx xxx xx xx">
+
+                <div class="flex-row">
+                    <div style="flex: 2; margin-right: 10px;">
+                        <label for="record-amount">Miktar</label>
+                        <input type="number" id="record-amount" step="0.01" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="record-currency">Para Birimi</label>
+                        <select id="record-currency" required>
+                            </select>
+                    </div>
+                </div>
+
+                <label for="record-gold">Altın (Gram - İsteğe Bağlı)</label>
+                <input type="number" id="record-gold" step="0.01">
+                
+                <label for="record-date">Tarih</label>
+                <input type="date" id="record-date" required>
+                
+                <label for="record-description">Açıklama / Detay</label>
+                <textarea id="record-description"></textarea>
+                
+                <button type="submit" id="modal-submit-btn">Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+	// --- Yapılandırma ve Veri Yönetimi ---
+
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "123";
+const SECTIONS = ['gelir', 'gider', 'alacak', 'verecek', 'siparis', 'emanet'];
+const LOCAL_STORAGE_KEY = 'aksoz_gold_data';
+
+// Desteklenen Para Birimleri Listesi
+const CURRENCIES = [
+    { code: 'TRY', name: 'Türk Lirası (₺)' },
+    { code: 'USD', name: 'Amerikan Doları ($)' },
+    { code: 'EUR', name: 'Euro (€)' },
+    { code: 'CHF', name: 'İsviçre Frangı (CHF)' },
+    { code: 'AED', name: 'BAE Dirhemi (Dubai Dinarı)' },
+    { code: 'GBP', name: 'İngiliz Sterlini (£)' },
+    { code: 'CAD', name: 'Kanada Doları' },
+    { code: 'AUD', name: 'Avustralya Doları' },
+    // Diğer popüler/istenilen birimler buraya eklenebilir.
+    { code: 'G', name: 'Gram Altın (Gr)' } // Altın da ayrı bir para birimi gibi ele alınıyor
+];
+
+// Veri yükleme ve kaydetme fonksiyonları (LocalStorage)
+function loadData() {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+        return JSON.parse(storedData);
+    }
+    const initialData = {};
+    SECTIONS.forEach(section => {
+        initialData[section] = [];
+    });
+    return initialData;
+}
+
+function saveData(data) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+}
+
+let DATA = loadData();
+
+// --- Başlangıç İşlemleri: Para Birimi Seçeneklerini Doldur ---
+
+function populateCurrencyDropdown() {
+    const select = document.getElementById('record-currency');
+    if (select) {
+        CURRENCIES.forEach(currency => {
+            const option = document.createElement('option');
+            option.value = currency.code;
+            option.textContent = currency.name;
+            if (currency.code === 'TRY') {
+                option.selected = true; // Varsayılan olarak TL seçili
+            }
+            select.appendChild(option);
+        });
+    }
+}
+
+// --- Giriş/Çıkış İşlemleri ve DOM Hazırlığı ---
+
+function login() {
+    const usernameInput = document.getElementById('username').value;
+    const passwordInput = document.getElementById('password').value;
+    const messageElement = document.getElementById('login-message');
+
+    if (usernameInput === ADMIN_USERNAME && passwordInput === ADMIN_PASSWORD) {
+        document.getElementById('login-panel').classList.add('hidden');
+        document.getElementById('dashboard-panel').classList.remove('hidden');
+        localStorage.setItem('isLoggedIn', 'true');
+        loadDashboard();
+        showSection('dashboard');
+    } else {
+        messageElement.textContent = "Hatalı kullanıcı adı veya şifre.";
+        messageElement.style.color = "#e74c3c";
+    }
+}
+
+function logout() {
+    localStorage.removeItem('isLoggedIn');
+    document.getElementById('dashboard-panel').classList.add('hidden');
+    document.getElementById('login-panel').classList.remove('hidden');
+    document.getElementById('login-message').textContent = "";
+    document.getElementById('username').value = "";
+    document.getElementById('password').value = "";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    populateCurrencyDropdown(); // Para birimi seçeneklerini doldur
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (isLoggedIn) {
+        document.getElementById('login-panel').classList.add('hidden');
+        document.getElementById('dashboard-panel').classList.remove('hidden');
+        loadDashboard();
+        showSection('dashboard');
+    } else {
+        document.getElementById('login-panel').classList.remove('hidden');
+        document.getElementById('dashboard-panel').classList.add('hidden');
+    }
+    // Menü tıklamalarını dinle
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = item.getAttribute('data-section');
+            showSection(section);
+        });
+    });
+});
+
+
+// --- Sayfa ve Menü Yönetimi ---
+
+function showSection(sectionType) {
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.add('hidden');
+    });
+
+    const targetSection = document.getElementById(`section-${sectionType}`);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+        if (sectionType !== 'dashboard') {
+            renderTable(sectionType); // Tabloyu render et
+        }
+    }
+
+    // Aktif menü öğesini güncelle
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-section') === sectionType) {
+            item.classList.add('active');
+        }
+    });
+}
+
+
+// --- Dashboard Yükleme (TL ve Altın Toplamları) ---
+
+function loadDashboard() {
+    let totalGelirTL = 0;
+    let totalGiderTL = 0;
+    let netGold = 0; 
+
+    // Sadece TL ve Altın olanları topla
+    DATA.gelir.forEach(r => {
+        if (r.currency === 'TRY') totalGelirTL += parseFloat(r.amount);
+        netGold += parseFloat(r.gold);
+    });
+    
+    DATA.gider.forEach(r => {
+        if (r.currency === 'TRY') totalGiderTL += parseFloat(r.amount);
+        netGold -= parseFloat(r.gold); 
+    });
+    
+    const netBakiyeTL = totalGelirTL - totalGiderTL;
+
+    // Arayüzü güncelle
+    document.getElementById('total-gelir').textContent = formatCurrency(totalGelirTL, 'TRY');
+    document.getElementById('total-gider').textContent = formatCurrency(totalGiderTL, 'TRY');
+    document.getElementById('total-gold-net').textContent = formatGold(netGold); 
+}
+
+
+// --- Tablo (Listeleme) Yönetimi ---
+
+function renderTable(sectionType, filteredRecords = null) {
+    const tableBody = document.querySelector(`#table-${sectionType} tbody`);
+    if (!tableBody) return;
+
+    tableBody.innerHTML = ''; 
+
+    let records = filteredRecords || DATA[sectionType];
+    
+    // Alfabetik Sıralama (İsim Soyisim'e göre)
+    records.sort((a, b) => a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' }));
+
+    records.forEach(record => {
+        const row = tableBody.insertRow();
+        row.dataset.id = record.id;
+        
+        row.insertCell().textContent = record.name; 
+        row.insertCell().textContent = record.phone; 
+        
+        // Miktar (Değer) ve Para Birimi/Sembolü
+        row.insertCell().textContent = formatCurrency(record.amount, record.currency, true); // Sadece miktar (örn: 12.345,00)
+        row.insertCell().textContent = record.currency; // Para birimi kodu (örn: USD)
+        
+        row.insertCell().textContent = formatGold(record.gold);
+        
+        row.insertCell().textContent = record.date;
+        
+        const actionsCell = row.insertCell();
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'action-btn edit-btn';
+        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+        editBtn.onclick = () => openModal(sectionType, record.id);
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'action-btn delete-btn';
+        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteBtn.onclick = () => deleteRecord(sectionType, record.id, record.name);
+
+        actionsCell.appendChild(editBtn);
+        actionsCell.appendChild(deleteBtn);
+    });
+}
+
+function searchRecords(sectionType) {
+    const searchTerm = document.getElementById(`search-${sectionType}`).value.toLowerCase();
+    const allRecords = DATA[sectionType];
+
+    const filtered = allRecords.filter(record => 
+        record.name.toLowerCase().includes(searchTerm) ||
+        record.phone.toLowerCase().includes(searchTerm) || 
+        record.description.toLowerCase().includes(searchTerm) ||
+        record.amount.toString().includes(searchTerm) ||
+        record.currency.toLowerCase().includes(searchTerm)
+    );
+
+    renderTable(sectionType, filtered);
+}
+
+
+// --- Kayıt Ekleme/Düzenleme (Modal) Yönetimi ---
+
+function openModal(sectionType, recordId = null) {
+    const modal = document.getElementById('record-modal');
+    const title = document.getElementById('modal-title');
+    const form = document.getElementById('record-form');
+    
+    form.reset();
+    document.getElementById('modal-type').value = sectionType;
+    document.getElementById('record-id').value = recordId || '';
+
+    const dateInput = document.getElementById('record-date');
+    if (!recordId) {
+        dateInput.valueAsDate = new Date();
+        document.getElementById('record-currency').value = 'TRY'; 
+    }
+    
+    if (recordId) {
+        title.textContent = "Kayıt Düzenle";
+        const record = DATA[sectionType].find(r => r.id === recordId);
+        if (record) {
+            document.getElementById('record-name').value = record.name;
+            document.getElementById('record-phone').value = record.phone || '';
+            document.getElementById('record-amount').value = record.amount;
+            document.getElementById('record-currency').value = record.currency; 
+            document.getElementById('record-gold').value = record.gold;
+            document.getElementById('record-date').value = record.date;
+            document.getElementById('record-description').value = record.description;
+        }
+    } else {
+        title.textContent = "Yeni Kayıt Ekle";
+    }
+
+    modal.style.display = 'block';
+}
+
+// Form gönderme işlemi
+document.getElementById('record-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const sectionType = document.getElementById('modal-type').value;
+    const recordId = document.getElementById('record-id').value;
+    
+    const newRecord = {
+        name: document.getElementById('record-name').value,
+        phone: document.getElementById('record-phone').value,
+        amount: parseFloat(document.getElementById('record-amount').value) || 0,
+        currency: document.getElementById('record-currency').value, 
+        gold: parseFloat(document.getElementById('record-gold').value) || 0,
+        date: document.getElementById('record-date').value,
+        description: document.getElementById('record-description').value,
+    };
+    
+    if (recordId) {
+        const index = DATA[sectionType].findIndex(r => r.id === recordId);
+        if (index > -1) {
+            DATA[sectionType][index] = { ...DATA[sectionType][index], ...newRecord };
+        }
+    } else {
+        newRecord.id = Date.now().toString(); 
+        DATA[sectionType].push(newRecord);
+    }
+
+    saveData(DATA);
+    closeModal();
+    loadDashboard();
+    renderTable(sectionType);
+});
+
+
+// --- Yardımcı Fonksiyonlar ---
+
+function formatCurrency(amount, currencyCode, onlyValue = false) {
+    const formattedAmount = (amount || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    
+    if (onlyValue) {
+         return formattedAmount;
+    }
+    
+    // ISO 4217 standart sembolleri olmayanlar için manuel sembol ekleme
+    if (currencyCode === 'AED') return `${formattedAmount} AED`;
+    if (currencyCode === 'CHF') return `${formattedAmount} CHF`;
+    
+    // Geri kalanları standart Internationalization API ile formatla
+    try {
+        return (amount || 0).toLocaleString('tr-TR', { style: 'currency', currency: currencyCode });
+    } catch (e) {
+        return `${formattedAmount} ${currencyCode}`;
+    }
+}
+
+function formatGold(amount) {
+    return `${(amount || 0).toFixed(2)} Gr`;
+}
+
+function deleteRecord(sectionType, recordId, recordName) {
+    if (confirm(`"${recordName}" kaydını silmek istediğinizden emin misiniz?`)) {
+        DATA[sectionType] = DATA[sectionType].filter(r => r.id !== recordId);
+        saveData(DATA);
+        loadDashboard();
+        renderTable(sectionType);
+    }
+}
+
+function closeModal() {
+    document.getElementById('record-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('record-modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+// Global scope'da olması gereken fonksiyonlar (login, logout, openModal, searchRecords, vb.)
+// index.html'deki butonlar tarafından çağrılabilmesi için
+window.login = login;
+window.logout = logout;
+window.openModal = openModal;
+window.searchRecords = searchRecords;
+window.deleteRecord = deleteRecord;
+window.closeModal = closeModal;
+
+</script> 
+</body>
+</html>
