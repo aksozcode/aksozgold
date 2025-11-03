@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AKSÖZ GOLD Takip Sistemi</title>
-    <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
+        /* CSS Değişiklikleri */
         .flex-row {
             display: flex;
             gap: 10px;
             align-items: flex-end;
+            margin-bottom: 15px; /* Form alanları arasındaki boşluğu ayarla */
         }
         .flex-row > div {
             flex: 1;
@@ -20,409 +21,472 @@
             width: 100%;
         }
 
-	:root {
-    --gold: #FFD700; /* Ana altın rengi */
-    --gold-dark: #C5A400; /* Koyu altın (hover için) */
-    --black: #1A1A1A; /* Ana siyah */
-    --white: #FFFFFF; /* Ana beyaz */
-    --gray-bg: #F4F4F4; /* Açık arka plan */
-}
+	    :root {
+            --gold: #FFD700; /* Ana altın rengi */
+            --gold-dark: #C5A400; /* Koyu altın (hover için) */
+            --black: #1A1A1A; /* Ana siyah */
+            --white: #FFFFFF; /* Ana beyaz */
+            --gray-bg: #F4F4F4; /* Açık arka plan */
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-body {
-    background-color: var(--gray-bg);
-    color: var(--black);
-    line-height: 1.6;
-}
+        body {
+            background-color: var(--gray-bg);
+            color: var(--black);
+            line-height: 1.6;
+        }
 
-/* --- Genel Panel Yapısı ve Giriş Ekranı --- */
-.panel {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        /* --- Genel Panel Yapısı ve Giriş Ekranı --- */
+        .panel {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.hidden {
-    display: none !important;
-}
+        .hidden {
+            display: none !important;
+        }
 
-#login-panel {
-    background: linear-gradient(135deg, var(--black) 50%, #333 100%);
-    color: var(--white);
-}
+        #login-panel {
+            background: linear-gradient(135deg, var(--black) 50%, #333 100%);
+            color: var(--white);
+        }
 
-.login-box {
-    background-color: var(--white);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    width: 350px;
-}
+        .login-box {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 350px;
+            max-width: 90%; /* Mobil görünüm iyileştirmesi */
+        }
 
-.login-box h1 {
-    color: var(--gold-dark);
-    margin-bottom: 5px;
-}
+        .login-box h1 {
+            color: var(--gold-dark);
+            margin-bottom: 5px;
+        }
 
-.login-box p {
-    color: #666;
-    margin-bottom: 30px;
-}
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
+        }
 
-.login-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-.login-box button {
-    width: 100%;
-    background-color: var(--gold);
-    color: var(--black);
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
+        .login-box button {
+            width: 100%;
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
 
-.login-box button:hover {
-    background-color: var(--gold-dark);
-}
+        .login-box button:hover {
+            background-color: var(--gold-dark);
+        }
 
-.login-box small {
-    display: block;
-    margin-top: 20px;
-    color: #aaa;
-}
+        .login-box small {
+            display: block;
+            margin-top: 20px;
+            color: #aaa;
+        }
 
-/* --- Yönetim Paneli (Dashboard) --- */
-#dashboard-panel {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 0;
-}
+        /* --- Yönetim Paneli (Dashboard) --- */
+        #dashboard-panel {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 0;
+        }
 
-/* Sol Menü (Sidebar) */
-#sidebar {
-    width: 250px;
-    background-color: var(--black);
-    color: var(--white);
-    padding: 20px 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+        /* Sol Menü (Sidebar) */
+        #sidebar {
+            width: 250px;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 20px 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: sticky; /* Masaüstünde sabit kalması için */
+            top: 0;
+        }
 
-.logo {
-    font-size: 1.5em;
-    text-align: center;
-    padding-bottom: 30px;
-    color: var(--gold);
-    border-bottom: 1px solid #333;
-    margin: 0 20px 20px 20px;
-}
+        .logo {
+            font-size: 1.5em;
+            text-align: center;
+            padding-bottom: 30px;
+            color: var(--gold);
+            border-bottom: 1px solid #333;
+            margin: 0 20px 20px 20px;
+        }
 
-#sidebar nav {
-    flex-grow: 1;
-}
+        #sidebar nav {
+            flex-grow: 1;
+        }
 
-#sidebar .nav-item {
-    display: block;
-    padding: 15px 25px;
-    text-decoration: none;
-    color: var(--white);
-    transition: background-color 0.3s, color 0.3s;
-}
+        #sidebar .nav-item {
+            display: block;
+            padding: 15px 25px;
+            text-decoration: none;
+            color: var(--white);
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-#sidebar .nav-item i {
-    margin-right: 10px;
-    width: 20px; /* İkon hizalaması için */
-}
+        #sidebar .nav-item i {
+            margin-right: 10px;
+            width: 20px; /* İkon hizalaması için */
+        }
 
-#sidebar .nav-item:hover, #sidebar .nav-item.active {
-    background-color: var(--gold);
-    color: var(--black);
-}
+        #sidebar .nav-item:hover, #sidebar .nav-item.active {
+            background-color: var(--gold);
+            color: var(--black);
+        }
 
-.logout-btn {
-    background-color: transparent;
-    border: 1px solid var(--white);
-    color: var(--white);
-    padding: 10px;
-    margin: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid var(--white);
+            color: var(--white);
+            padding: 10px;
+            margin: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-.logout-btn:hover {
-    background-color: var(--gold-dark);
-    border-color: var(--gold-dark);
-    color: var(--black);
-}
+        .logout-btn:hover {
+            background-color: var(--gold-dark);
+            border-color: var(--gold-dark);
+            color: var(--black);
+        }
 
-/* Ana İçerik */
-#main-content {
-    flex-grow: 1;
-    padding: 30px;
-    width: calc(100% - 250px);
-}
+        /* Ana İçerik */
+        #main-content {
+            flex-grow: 1;
+            padding: 30px;
+            width: calc(100% - 250px); /* Masaüstü için */
+        }
 
-.content-section {
-    background-color: var(--white);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        .content-section {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px; /* Bölümler arasına boşluk */
+        }
 
-h2 {
-    color: var(--black);
-    margin-bottom: 25px;
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: 10px;
-}
+        h2 {
+            color: var(--black);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+        }
 
-/* Özet Kartları */
-.summary-cards {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
-    flex-wrap: wrap; /* Mobil için */
-}
+        /* Özet Kartları */
+        .summary-cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap; 
+        }
 
-.card {
-    flex: 1;
-    padding: 20px;
-    border-radius: 8px;
-    color: var(--white);
-    min-width: 200px;
-}
+        .card {
+            flex: 1 1 200px; /* flex-basis ayarlandı */
+            padding: 20px;
+            border-radius: 8px;
+            color: var(--white);
+            min-width: 200px;
+        }
 
-.card.gold {
-    background-color: var(--gold);
-    color: var(--black);
-}
+        .card.gold {
+            background-color: var(--gold);
+            color: var(--black);
+        }
 
-.card.black {
-    background-color: var(--black);
-}
+        .card.black {
+            background-color: var(--black);
+        }
 
-.card h3 {
-    font-size: 1em;
-    margin-bottom: 10px;
-    opacity: 0.8;
-}
+        .card h3 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
 
-.card p {
-    font-size: 1.8em;
-    font-weight: bold;
-}
+        .card p {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
 
-/* Listeleme ve Butonlar */
-.actions {
-    margin-bottom: 20px;
-}
+        /* Listeleme ve Butonlar */
+        .actions {
+            margin-bottom: 20px;
+        }
 
-.add-new-btn, .pdf-btn {
-    background-color: var(--gold);
-    color: var(--black);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 10px;
-    transition: background-color 0.3s;
-}
+        .add-new-btn, .pdf-btn {
+            background-color: var(--gold);
+            color: var(--black);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+            margin-bottom: 10px; /* Mobil için alt boşluk */
+        }
+        
+        /* Flex row'da butonlar için düzeltme */
+        .actions button {
+            white-space: nowrap; /* Buton içeriğinin tek satırda kalması */
+        }
 
-.add-new-btn:hover, .pdf-btn:hover {
-    background-color: var(--gold-dark);
-}
+        .add-new-btn:hover, .pdf-btn:hover {
+            background-color: var(--gold-dark);
+        }
 
-.list-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+        .list-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Dikey hizalama */
+            flex-wrap: wrap; /* Mobil görünümde alt alta inmesi için */
+            gap: 10px; /* Elemanlar arası boşluk */
+            margin-bottom: 20px;
+        }
 
-.list-actions input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px;
-}
+        .list-actions input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex-grow: 1; /* Arama kutusunun esnek büyümesi */
+            min-width: 200px; /* Minimum genişlik */
+        }
 
-/* Tablo Stili */
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
+        /* Tablo Stili */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            overflow-x: auto; /* Tablo taşmasını engellemek için */
+            display: block; /* Taşmayı sağlamak için */
+            white-space: nowrap; /* Başlıkların tek satırda kalması */
+        }
 
-.data-table thead tr {
-    background-color: var(--black);
-    color: var(--gold);
-    text-align: left;
-}
+        .data-table thead tr {
+            background-color: var(--black);
+            color: var(--gold);
+            text-align: left;
+        }
 
-.data-table th, .data-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-}
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+        }
 
-.data-table tbody tr:hover {
-    background-color: var(--gray-bg);
-}
+        .data-table tbody tr:hover {
+            background-color: var(--gray-bg);
+        }
 
-.data-table .action-btn {
-    padding: 5px 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: opacity 0.3s;
-    font-size: 0.9em;
-}
+        .data-table .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+        }
 
-.data-table .edit-btn {
-    background-color: var(--gold-dark);
-    color: var(--black);
-}
+        .data-table .edit-btn {
+            background-color: var(--gold-dark);
+            color: var(--black);
+        }
 
-.data-table .delete-btn {
-    background-color: #e74c3c;
-    color: var(--white);
-}
+        .data-table .delete-btn {
+            background-color: #e74c3c;
+            color: var(--white);
+        }
+        
+        /* Modal form alanlarında etiket ve girdi arasındaki boşlukları düzenleme */
+        .modal-content label {
+            margin-top: 10px; 
+            margin-bottom: 5px;
+        }
+        
+        .modal-content input, .modal-content textarea, .modal-content select {
+             margin-bottom: 10px; 
+        }
 
-/* --- Modal Stili --- */
-.modal {
-    display: none; /* Varsayılan olarak gizli */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.6);
-    padding-top: 60px;
-}
 
-.modal-content {
-    background-color: var(--white);
-    margin: 5% auto;
-    padding: 30px;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 10px;
-    position: relative;
-}
+        /* --- Modal Stili --- */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            padding-top: 20px; /* Mobil için yukarıdan boşluk */
+        }
 
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+        .modal-content {
+            background-color: var(--white);
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+        }
 
-.close-btn:hover, .close-btn:focus {
-    color: var(--black);
-    text-decoration: none;
-    cursor: pointer;
-}
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-.modal-content label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+        .close-btn:hover, .close-btn:focus {
+            color: var(--black);
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-.modal-content input, .modal-content textarea, .modal-content select { /* select eklendi */
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        .modal-content label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-#modal-submit-btn {
-    background-color: var(--black);
-    color: var(--gold);
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
+        .modal-content input, .modal-content textarea, .modal-content select { 
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-#modal-submit-btn:hover {
-    background-color: #333;
-}
+        #modal-submit-btn {
+            background-color: var(--black);
+            color: var(--gold);
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
 
-/* --- Responsive Ayarlar --- */
-@media (max-width: 768px) {
-    #dashboard-panel {
-        flex-direction: column;
-    }
+        #modal-submit-btn:hover {
+            background-color: #333;
+        }
 
-    #sidebar {
-        width: 100%;
-        min-height: auto;
-        padding: 10px 0;
-    }
-    
-    #sidebar nav {
-        display: flex;
-        overflow-x: auto; /* Mobil menü kaydırma */
-        white-space: nowrap;
-        padding-bottom: 10px;
-    }
-    
-    #sidebar .nav-item {
-        padding: 10px 15px;
-    }
+        /* --- Responsive Ayarlar (Mobil) --- */
+        @media (max-width: 768px) {
+            #dashboard-panel {
+                flex-direction: column;
+            }
 
-    .logo, .logout-btn {
-        display: none; /* Mobil ekranda sidebar'ı sadeleştir */
-    }
+            #sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 10px 0;
+                position: relative; /* Mobil görünümde sabitliği kaldır */
+                overflow-x: auto; /* Menü taşmasını engelle */
+                white-space: nowrap;
+            }
+            
+            #sidebar nav {
+                display: flex;
+                overflow-x: auto; 
+                padding-bottom: 10px;
+            }
+            
+            #sidebar .nav-item {
+                padding: 10px 15px;
+                flex-shrink: 0; /* Menü öğelerinin küçülmesini engelle */
+            }
 
-    #main-content {
-        width: 100%;
-        padding: 15px;
-    }
+            .logo {
+                display: none; 
+            }
+            
+            .logout-btn {
+                margin: 10px; 
+                flex-shrink: 0;
+            }
+            
+            #sidebar {
+                flex-direction: row; /* Menü ve Çıkış Yan Yana */
+                align-items: center;
+                justify-content: flex-start;
+            }
+            
+            #main-content {
+                width: 100%;
+                padding: 15px;
+            }
 
-    .summary-cards {
-        flex-direction: column;
-    }
-    
-    .list-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
+            .summary-cards {
+                flex-direction: column;
+            }
+            
+            .list-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
 
-    .list-actions input[type="text"] {
-        width: 100%;
-    }
-}
-
+            .list-actions input[type="text"] {
+                width: 100%;
+            }
+            
+            .actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .actions button {
+                flex: 1 1 auto; /* Butonların esnekliği */
+                margin-right: 0;
+            }
+            
+            .flex-row {
+                flex-direction: column; /* Modal içindeki inputları alt alta getir */
+                gap: 0;
+            }
+            
+            .flex-row > div {
+                flex: none;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -435,8 +499,7 @@ h2 {
             <input type="password" id="password" placeholder="Şifre">
             <button onclick="login()">Giriş Yap</button>
             <p class="warning" id="login-message"></p>
-            <small>Basit Güvenlik: Şifre doğrulama JS içindedir.</small>
-        </div>
+            </div>
     </div>
 
     <div id="dashboard-panel" class="panel hidden">
@@ -544,11 +607,11 @@ h2 {
                 <input type="tel" id="record-phone" placeholder="Ör: 05xx xxx xx xx">
 
                 <div class="flex-row">
-                    <div style="flex: 2; margin-right: 10px;">
+                    <div>
                         <label for="record-amount">Miktar</label>
                         <input type="number" id="record-amount" step="0.01" required>
                     </div>
-                    <div style="flex: 1;">
+                    <div>
                         <label for="record-currency">Para Birimi</label>
                         <select id="record-currency" required>
                             </select>
@@ -556,7 +619,7 @@ h2 {
                 </div>
 
                 <label for="record-gold">Altın (Gram - İsteğe Bağlı)</label>
-                <input type="number" id="record-gold" step="0.01">
+                <input type="number" id="record-gold" step="0.01" placeholder="Ör: 5.25">
                 
                 <label for="record-date">Tarih</label>
                 <input type="date" id="record-date" required>
@@ -572,350 +635,360 @@ h2 {
     <script>
 	// --- Yapılandırma ve Veri Yönetimi ---
 
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "123";
-const SECTIONS = ['gelir', 'gider', 'alacak', 'verecek', 'siparis', 'emanet'];
-const LOCAL_STORAGE_KEY = 'aksoz_gold_data';
-
-// Desteklenen Para Birimleri Listesi
-const CURRENCIES = [
-    { code: 'TRY', name: 'Türk Lirası (₺)' },
-    { code: 'USD', name: 'Amerikan Doları ($)' },
-    { code: 'EUR', name: 'Euro (€)' },
-    { code: 'CHF', name: 'İsviçre Frangı (CHF)' },
-    { code: 'AED', name: 'BAE Dirhemi (Dubai Dinarı)' },
-    { code: 'GBP', name: 'İngiliz Sterlini (£)' },
-    { code: 'CAD', name: 'Kanada Doları' },
-    { code: 'AUD', name: 'Avustralya Doları' },
-    // Diğer popüler/istenilen birimler buraya eklenebilir.
-    { code: 'G', name: 'Gram Altın (Gr)' } // Altın da ayrı bir para birimi gibi ele alınıyor
-];
-
-// Veri yükleme ve kaydetme fonksiyonları (LocalStorage)
-function loadData() {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-        return JSON.parse(storedData);
-    }
-    const initialData = {};
-    SECTIONS.forEach(section => {
-        initialData[section] = [];
-    });
-    return initialData;
-}
-
-function saveData(data) {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-}
-
-let DATA = loadData();
-
-// --- Başlangıç İşlemleri: Para Birimi Seçeneklerini Doldur ---
-
-function populateCurrencyDropdown() {
-    const select = document.getElementById('record-currency');
-    if (select) {
-        CURRENCIES.forEach(currency => {
-            const option = document.createElement('option');
-            option.value = currency.code;
-            option.textContent = currency.name;
-            if (currency.code === 'TRY') {
-                option.selected = true; // Varsayılan olarak TL seçili
-            }
-            select.appendChild(option);
-        });
-    }
-}
-
-// --- Giriş/Çıkış İşlemleri ve DOM Hazırlığı ---
-
-function login() {
-    const usernameInput = document.getElementById('username').value;
-    const passwordInput = document.getElementById('password').value;
-    const messageElement = document.getElementById('login-message');
-
-    if (usernameInput === ADMIN_USERNAME && passwordInput === ADMIN_PASSWORD) {
-        document.getElementById('login-panel').classList.add('hidden');
-        document.getElementById('dashboard-panel').classList.remove('hidden');
-        localStorage.setItem('isLoggedIn', 'true');
-        loadDashboard();
-        showSection('dashboard');
-    } else {
-        messageElement.textContent = "Hatalı kullanıcı adı veya şifre.";
-        messageElement.style.color = "#e74c3c";
-    }
-}
-
-function logout() {
-    localStorage.removeItem('isLoggedIn');
-    document.getElementById('dashboard-panel').classList.add('hidden');
-    document.getElementById('login-panel').classList.remove('hidden');
-    document.getElementById('login-message').textContent = "";
-    document.getElementById('username').value = "";
-    document.getElementById('password').value = "";
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    populateCurrencyDropdown(); // Para birimi seçeneklerini doldur
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    if (isLoggedIn) {
-        document.getElementById('login-panel').classList.add('hidden');
-        document.getElementById('dashboard-panel').classList.remove('hidden');
-        loadDashboard();
-        showSection('dashboard');
-    } else {
-        document.getElementById('login-panel').classList.remove('hidden');
-        document.getElementById('dashboard-panel').classList.add('hidden');
-    }
-    // Menü tıklamalarını dinle
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const section = item.getAttribute('data-section');
-            showSection(section);
-        });
-    });
-});
-
-
-// --- Sayfa ve Menü Yönetimi ---
-
-function showSection(sectionType) {
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('hidden');
-    });
-
-    const targetSection = document.getElementById(`section-${sectionType}`);
-    if (targetSection) {
-        targetSection.classList.remove('hidden');
-        if (sectionType !== 'dashboard') {
-            renderTable(sectionType); // Tabloyu render et
-        }
-    }
-
-    // Aktif menü öğesini güncelle
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('data-section') === sectionType) {
-            item.classList.add('active');
-        }
-    });
-}
-
-
-// --- Dashboard Yükleme (TL ve Altın Toplamları) ---
-
-function loadDashboard() {
-    let totalGelirTL = 0;
-    let totalGiderTL = 0;
-    let netGold = 0; 
-
-    // Sadece TL ve Altın olanları topla
-    DATA.gelir.forEach(r => {
-        if (r.currency === 'TRY') totalGelirTL += parseFloat(r.amount);
-        netGold += parseFloat(r.gold);
-    });
-    
-    DATA.gider.forEach(r => {
-        if (r.currency === 'TRY') totalGiderTL += parseFloat(r.amount);
-        netGold -= parseFloat(r.gold); 
-    });
-    
-    const netBakiyeTL = totalGelirTL - totalGiderTL;
-
-    // Arayüzü güncelle
-    document.getElementById('total-gelir').textContent = formatCurrency(totalGelirTL, 'TRY');
-    document.getElementById('total-gider').textContent = formatCurrency(totalGiderTL, 'TRY');
-    document.getElementById('total-gold-net').textContent = formatGold(netGold); 
-}
-
-
-// --- Tablo (Listeleme) Yönetimi ---
-
-function renderTable(sectionType, filteredRecords = null) {
-    const tableBody = document.querySelector(`#table-${sectionType} tbody`);
-    if (!tableBody) return;
-
-    tableBody.innerHTML = ''; 
-
-    let records = filteredRecords || DATA[sectionType];
-    
-    // Alfabetik Sıralama (İsim Soyisim'e göre)
-    records.sort((a, b) => a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' }));
-
-    records.forEach(record => {
-        const row = tableBody.insertRow();
-        row.dataset.id = record.id;
-        
-        row.insertCell().textContent = record.name; 
-        row.insertCell().textContent = record.phone; 
-        
-        // Miktar (Değer) ve Para Birimi/Sembolü
-        row.insertCell().textContent = formatCurrency(record.amount, record.currency, true); // Sadece miktar (örn: 12.345,00)
-        row.insertCell().textContent = record.currency; // Para birimi kodu (örn: USD)
-        
-        row.insertCell().textContent = formatGold(record.gold);
-        
-        row.insertCell().textContent = record.date;
-        
-        const actionsCell = row.insertCell();
-        
-        const editBtn = document.createElement('button');
-        editBtn.className = 'action-btn edit-btn';
-        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-        editBtn.onclick = () => openModal(sectionType, record.id);
-        
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'action-btn delete-btn';
-        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        deleteBtn.onclick = () => deleteRecord(sectionType, record.id, record.name);
-
-        actionsCell.appendChild(editBtn);
-        actionsCell.appendChild(deleteBtn);
-    });
-}
-
-function searchRecords(sectionType) {
-    const searchTerm = document.getElementById(`search-${sectionType}`).value.toLowerCase();
-    const allRecords = DATA[sectionType];
-
-    const filtered = allRecords.filter(record => 
-        record.name.toLowerCase().includes(searchTerm) ||
-        record.phone.toLowerCase().includes(searchTerm) || 
-        record.description.toLowerCase().includes(searchTerm) ||
-        record.amount.toString().includes(searchTerm) ||
-        record.currency.toLowerCase().includes(searchTerm)
-    );
-
-    renderTable(sectionType, filtered);
-}
-
-
-// --- Kayıt Ekleme/Düzenleme (Modal) Yönetimi ---
-
-function openModal(sectionType, recordId = null) {
-    const modal = document.getElementById('record-modal');
-    const title = document.getElementById('modal-title');
-    const form = document.getElementById('record-form');
-    
-    form.reset();
-    document.getElementById('modal-type').value = sectionType;
-    document.getElementById('record-id').value = recordId || '';
-
-    const dateInput = document.getElementById('record-date');
-    if (!recordId) {
-        dateInput.valueAsDate = new Date();
-        document.getElementById('record-currency').value = 'TRY'; 
-    }
-    
-    if (recordId) {
-        title.textContent = "Kayıt Düzenle";
-        const record = DATA[sectionType].find(r => r.id === recordId);
-        if (record) {
-            document.getElementById('record-name').value = record.name;
-            document.getElementById('record-phone').value = record.phone || '';
-            document.getElementById('record-amount').value = record.amount;
-            document.getElementById('record-currency').value = record.currency; 
-            document.getElementById('record-gold').value = record.gold;
-            document.getElementById('record-date').value = record.date;
-            document.getElementById('record-description').value = record.description;
-        }
-    } else {
-        title.textContent = "Yeni Kayıt Ekle";
-    }
-
-    modal.style.display = 'block';
-}
-
-// Form gönderme işlemi
-document.getElementById('record-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const sectionType = document.getElementById('modal-type').value;
-    const recordId = document.getElementById('record-id').value;
-    
-    const newRecord = {
-        name: document.getElementById('record-name').value,
-        phone: document.getElementById('record-phone').value,
-        amount: parseFloat(document.getElementById('record-amount').value) || 0,
-        currency: document.getElementById('record-currency').value, 
-        gold: parseFloat(document.getElementById('record-gold').value) || 0,
-        date: document.getElementById('record-date').value,
-        description: document.getElementById('record-description').value,
+    // Şifre ve Kullanıcı Adı Güncellendi ve Sabitler bir nesne içine alındı.
+    const CONFIG = {
+        ADMIN_USERNAME: "admin",
+        ADMIN_PASSWORD: "sehzadeaksoz", // Yeni şifre
+        LOCAL_STORAGE_KEY: 'aksoz_gold_data_v2' // Yeni versiyon için key değiştirildi
     };
     
-    if (recordId) {
-        const index = DATA[sectionType].findIndex(r => r.id === recordId);
-        if (index > -1) {
-            DATA[sectionType][index] = { ...DATA[sectionType][index], ...newRecord };
+    const SECTIONS = ['gelir', 'gider', 'alacak', 'verecek', 'siparis', 'emanet'];
+
+
+    // Desteklenen Para Birimleri Listesi
+    const CURRENCIES = [
+        { code: 'TRY', name: 'Türk Lirası (₺)' },
+        { code: 'USD', name: 'Amerikan Doları ($)' },
+        { code: 'EUR', name: 'Euro (€)' },
+        { code: 'CHF', name: 'İsviçre Frangı (CHF)' },
+        { code: 'AED', name: 'BAE Dirhemi (Dubai Dinarı)' },
+        { code: 'GBP', name: 'İngiliz Sterlini (£)' },
+        { code: 'CAD', name: 'Kanada Doları' },
+        { code: 'AUD', name: 'Avustralya Doları' },
+        { code: 'G', name: 'Gram Altın (Gr)' } 
+    ];
+
+    // Veri yükleme ve kaydetme fonksiyonları (LocalStorage)
+    function loadData() {
+        const storedData = localStorage.getItem(CONFIG.LOCAL_STORAGE_KEY);
+        if (storedData) {
+            return JSON.parse(storedData);
         }
-    } else {
-        newRecord.id = Date.now().toString(); 
-        DATA[sectionType].push(newRecord);
+        const initialData = {};
+        SECTIONS.forEach(section => {
+            initialData[section] = [];
+        });
+        return initialData;
     }
 
-    saveData(DATA);
-    closeModal();
-    loadDashboard();
-    renderTable(sectionType);
-});
-
-
-// --- Yardımcı Fonksiyonlar ---
-
-function formatCurrency(amount, currencyCode, onlyValue = false) {
-    const formattedAmount = (amount || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
-    if (onlyValue) {
-         return formattedAmount;
+    function saveData(data) {
+        localStorage.setItem(CONFIG.LOCAL_STORAGE_KEY, JSON.stringify(data));
     }
-    
-    // ISO 4217 standart sembolleri olmayanlar için manuel sembol ekleme
-    if (currencyCode === 'AED') return `${formattedAmount} AED`;
-    if (currencyCode === 'CHF') return `${formattedAmount} CHF`;
-    
-    // Geri kalanları standart Internationalization API ile formatla
-    try {
-        return (amount || 0).toLocaleString('tr-TR', { style: 'currency', currency: currencyCode });
-    } catch (e) {
-        return `${formattedAmount} ${currencyCode}`;
+
+    let DATA = loadData();
+
+    // --- Başlangıç İşlemleri: Para Birimi Seçeneklerini Doldur ---
+
+    function populateCurrencyDropdown() {
+        const select = document.getElementById('record-currency');
+        if (select) {
+            select.innerHTML = ''; // Temizle
+            CURRENCIES.forEach(currency => {
+                const option = document.createElement('option');
+                option.value = currency.code;
+                option.textContent = currency.name;
+                if (currency.code === 'TRY') {
+                    option.selected = true; // Varsayılan olarak TL seçili
+                }
+                select.appendChild(option);
+            });
+        }
     }
-}
 
-function formatGold(amount) {
-    return `${(amount || 0).toFixed(2)} Gr`;
-}
+    // --- Giriş/Çıkış İşlemleri ve DOM Hazırlığı ---
 
-function deleteRecord(sectionType, recordId, recordName) {
-    if (confirm(`"${recordName}" kaydını silmek istediğinizden emin misiniz?`)) {
-        DATA[sectionType] = DATA[sectionType].filter(r => r.id !== recordId);
+    function login() {
+        const usernameInput = document.getElementById('username').value;
+        const passwordInput = document.getElementById('password').value;
+        const messageElement = document.getElementById('login-message');
+
+        if (usernameInput === CONFIG.ADMIN_USERNAME && passwordInput === CONFIG.ADMIN_PASSWORD) {
+            document.getElementById('login-panel').classList.add('hidden');
+            document.getElementById('dashboard-panel').classList.remove('hidden');
+            localStorage.setItem('isLoggedIn', 'true');
+            loadDashboard();
+            showSection('dashboard');
+        } else {
+            messageElement.textContent = "Hatalı kullanıcı adı veya şifre.";
+            messageElement.style.color = "#e74c3c";
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('isLoggedIn');
+        document.getElementById('dashboard-panel').classList.add('hidden');
+        document.getElementById('login-panel').classList.remove('hidden');
+        document.getElementById('login-message').textContent = "";
+        document.getElementById('username').value = "";
+        document.getElementById('password').value = "";
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        populateCurrencyDropdown(); 
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            document.getElementById('login-panel').classList.add('hidden');
+            document.getElementById('dashboard-panel').classList.remove('hidden');
+            loadDashboard();
+            showSection('dashboard');
+        } else {
+            document.getElementById('login-panel').classList.remove('hidden');
+            document.getElementById('dashboard-panel').classList.add('hidden');
+        }
+        
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = item.getAttribute('data-section');
+                showSection(section);
+            });
+        });
+    });
+
+
+    // --- Sayfa ve Menü Yönetimi ---
+
+    function showSection(sectionType) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.add('hidden');
+        });
+
+        const targetSection = document.getElementById(`section-${sectionType}`);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+            if (sectionType !== 'dashboard') {
+                renderTable(sectionType); 
+            }
+        }
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-section') === sectionType) {
+                item.classList.add('active');
+            }
+        });
+    }
+
+
+    // --- Dashboard Yükleme (TL ve Altın Toplamları) ---
+
+    function loadDashboard() {
+        let totalGelirTL = 0;
+        let totalGiderTL = 0;
+        let netGold = 0; 
+
+        // Sadece TL ve Altın olanları topla
+        DATA.gelir.forEach(r => {
+            if (r.currency === 'TRY') totalGelirTL += parseFloat(r.amount);
+            netGold += parseFloat(r.gold);
+        });
+        
+        DATA.gider.forEach(r => {
+            if (r.currency === 'TRY') totalGiderTL += parseFloat(r.amount);
+            netGold -= parseFloat(r.gold); 
+        });
+        
+        // Diğer bölümlerdeki Altın/TL toplamları dashboard'da gösterilmediği için sadece net altını hesaplıyoruz.
+
+        // Arayüzü güncelle
+        document.getElementById('total-gelir').textContent = formatCurrency(totalGelirTL, 'TRY');
+        document.getElementById('total-gider').textContent = formatCurrency(totalGiderTL, 'TRY');
+        document.getElementById('total-gold-net').textContent = formatGold(netGold); 
+    }
+
+
+    // --- Tablo (Listeleme) Yönetimi ---
+
+    function renderTable(sectionType, filteredRecords = null) {
+        const tableBody = document.querySelector(`#table-${sectionType} tbody`);
+        if (!tableBody) return;
+
+        tableBody.innerHTML = ''; 
+
+        let records = filteredRecords || DATA[sectionType];
+        
+        // Alfabetik Sıralama (İsim Soyisim'e göre)
+        records.sort((a, b) => a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' }));
+
+        records.forEach(record => {
+            const row = tableBody.insertRow();
+            row.dataset.id = record.id;
+            
+            row.insertCell().textContent = record.name; 
+            row.insertCell().textContent = record.phone; 
+            
+            // Miktar (Değer) ve Para Birimi/Sembolü
+            row.insertCell().textContent = formatCurrency(record.amount, record.currency, true); 
+            row.insertCell().textContent = record.currency; 
+            
+            row.insertCell().textContent = formatGold(record.gold);
+            
+            row.insertCell().textContent = record.date;
+            
+            const actionsCell = row.insertCell();
+            
+            const editBtn = document.createElement('button');
+            editBtn.className = 'action-btn edit-btn';
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.onclick = () => openModal(sectionType, record.id);
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'action-btn delete-btn';
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteBtn.onclick = () => deleteRecord(sectionType, record.id, record.name);
+
+            actionsCell.appendChild(editBtn);
+            actionsCell.appendChild(deleteBtn);
+        });
+    }
+
+    function searchRecords(sectionType) {
+        const searchTerm = document.getElementById(`search-${sectionType}`).value.toLowerCase();
+        const allRecords = DATA[sectionType];
+
+        const filtered = allRecords.filter(record => 
+            record.name.toLowerCase().includes(searchTerm) ||
+            record.phone.toLowerCase().includes(searchTerm) || 
+            record.description.toLowerCase().includes(searchTerm) ||
+            record.amount.toString().includes(searchTerm) ||
+            record.currency.toLowerCase().includes(searchTerm)
+        );
+
+        renderTable(sectionType, filtered);
+    }
+
+
+    // --- Kayıt Ekleme/Düzenleme (Modal) Yönetimi ---
+
+    function openModal(sectionType, recordId = null) {
+        const modal = document.getElementById('record-modal');
+        const title = document.getElementById('modal-title');
+        const form = document.getElementById('record-form');
+        
+        form.reset();
+        document.getElementById('modal-type').value = sectionType;
+        document.getElementById('record-id').value = recordId || '';
+
+        const dateInput = document.getElementById('record-date');
+        if (!recordId) {
+            dateInput.valueAsDate = new Date();
+            document.getElementById('record-currency').value = 'TRY'; 
+        }
+        
+        if (recordId) {
+            title.textContent = "Kayıt Düzenle";
+            const record = DATA[sectionType].find(r => r.id === recordId);
+            if (record) {
+                document.getElementById('record-name').value = record.name;
+                document.getElementById('record-phone').value = record.phone || '';
+                document.getElementById('record-amount').value = record.amount;
+                document.getElementById('record-currency').value = record.currency; 
+                document.getElementById('record-gold').value = record.gold;
+                document.getElementById('record-date').value = record.date;
+                document.getElementById('record-description').value = record.description;
+            }
+        } else {
+            title.textContent = `Yeni ${sectionType.charAt(0).toUpperCase() + sectionType.slice(1)} Kaydı Ekle`;
+        }
+
+        modal.style.display = 'block';
+    }
+
+    // Form gönderme işlemi
+    document.getElementById('record-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const sectionType = document.getElementById('modal-type').value;
+        const recordId = document.getElementById('record-id').value;
+        
+        const newRecord = {
+            name: document.getElementById('record-name').value.trim(),
+            phone: document.getElementById('record-phone').value.trim(),
+            amount: parseFloat(document.getElementById('record-amount').value) || 0,
+            currency: document.getElementById('record-currency').value, 
+            gold: parseFloat(document.getElementById('record-gold').value) || 0,
+            date: document.getElementById('record-date').value,
+            description: document.getElementById('record-description').value.trim(),
+        };
+        
+        if (recordId) {
+            const index = DATA[sectionType].findIndex(r => r.id === recordId);
+            if (index > -1) {
+                DATA[sectionType][index] = { ...DATA[sectionType][index], ...newRecord };
+            }
+        } else {
+            newRecord.id = Date.now().toString(); 
+            DATA[sectionType].push(newRecord);
+        }
+
         saveData(DATA);
+        closeModal();
         loadDashboard();
         renderTable(sectionType);
+    });
+
+
+    // --- Yardımcı Fonksiyonlar ---
+
+    function formatCurrency(amount, currencyCode, onlyValue = false) {
+        // Miktarın pozitif olduğundan emin ol
+        const absoluteAmount = Math.abs(amount) || 0;
+        const formattedAmount = absoluteAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        if (onlyValue) {
+            return formattedAmount;
+        }
+        
+        // Altın Gram ise özel formatlama
+        if (currencyCode === 'G') {
+            return `${formattedAmount} Gr`;
+        }
+        
+        // Sembolü bulunmayan/desteklenmeyenler için manuel
+        if (currencyCode === 'AED') return `${formattedAmount} AED`;
+        if (currencyCode === 'CHF') return `${formattedAmount} CHF`;
+        
+        // Standart Internationalization API ile formatla
+        try {
+            return absoluteAmount.toLocaleString('tr-TR', { style: 'currency', currency: currencyCode });
+        } catch (e) {
+            return `${formattedAmount} ${currencyCode}`;
+        }
     }
-}
 
-function closeModal() {
-    document.getElementById('record-modal').style.display = 'none';
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById('record-modal');
-    if (event.target === modal) {
-        closeModal();
+    function formatGold(amount) {
+        return `${(amount || 0).toFixed(2)} Gr`;
     }
-}
 
-// Global scope'da olması gereken fonksiyonlar (login, logout, openModal, searchRecords, vb.)
-// index.html'deki butonlar tarafından çağrılabilmesi için
-window.login = login;
-window.logout = logout;
-window.openModal = openModal;
-window.searchRecords = searchRecords;
-window.deleteRecord = deleteRecord;
-window.closeModal = closeModal;
+    function deleteRecord(sectionType, recordId, recordName) {
+        if (confirm(`"${recordName}" kaydını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.`)) {
+            DATA[sectionType] = DATA[sectionType].filter(r => r.id !== recordId);
+            saveData(DATA);
+            loadDashboard();
+            renderTable(sectionType);
+        }
+    }
 
-</script> 
+    function closeModal() {
+        document.getElementById('record-modal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('record-modal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+
+    // Global scope'da olması gereken fonksiyonlar (index.html'deki butonlar tarafından çağrılabilmesi için)
+    window.login = login;
+    window.logout = logout;
+    window.openModal = openModal;
+    window.searchRecords = searchRecords;
+    window.deleteRecord = deleteRecord;
+    window.closeModal = closeModal;
+
+    </script> 
 </body>
 
 </html>
